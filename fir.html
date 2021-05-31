@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .outer-box {
+            width: 90vw;
+            height: 90vh;
+            background-color: blueviolet;
+            display: flex;
+        }
+
+        .outer-box>div:nth-child(1) {
+            width: 25%;
+            height: 100%;
+            background-color: coral;
+        }
+
+        .outer-box>div:nth-child(2) {
+            width: 75%;
+            height: 100%;
+            background-color: burlywood;
+        }
+
+        .right-side {
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+
+        .dis {
+            height: fit-content;
+            width: fit-content;
+            background-color: blueviolet;
+            margin: 2%;
+            border-radius: 5px;
+        }
+
+        button {
+
+            margin: 10px;
+            height: 35px;
+            width: 160px;
+            border-radius: 5px;
+            border: 0px;
+        }
+
+        input {
+            height: 25px;
+
+        }
+
+        .imgdiv {
+            height: 100px;
+            width: 90px;
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer-box">
+        <div class="left-side">
+            NAME:<br><input type="text" id="name"><br>
+            AGE:<br><input type="number" id="age"><br>
+            CITY:<br><input type="text" id="city"><br>
+            CONTECT NUMBER:<br><input type="number" id="number"><br>
+            IMAGE:<br><input type="url" id="url"><br>
+            <button type="submit" onclick="adddata()">Ad Student</button>
+        </div>
+        <div class="right-side" id="rightpart">
+
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+    function setdata(n, a, c, nu) {
+        this.name = n
+        this.age = a
+        this.city = c
+        this.number = nu
+    }
+    var c = 0;
+    var alldata = {}
+    function adddata() {
+
+
+        let name = document.getElementById('name').value
+        let age = document.getElementById('age').value
+        let city = document.getElementById('city').value
+        let number = document.getElementById('number').value
+        let imgis = document.getElementById('url').value
+        if (number.length < 10) {
+            alert("Enter right number")
+        } else {
+
+            c++;
+            var data = new setdata(name, age, city, number)
+            alldata[c] = data;
+            var rigth = document.getElementById('rightpart')
+            var divis = document.createElement('div');
+            divis.style.backgroundImage = `url(${imgis})`
+            // divis.innerHTML = "hyyy";
+            divis.setAttribute('id', c)
+            divis.setAttribute('class', 'dis')
+            rigth.appendChild(divis)
+
+
+            var lis = document.createElement('list')
+            lis.innerHTML = `STUDENT DATA:<br>NAME:${data.name}  AGE:${data.age}<br> CITY${data.city}  NUMBER${data.number} <br>`
+            lis.setAttribute('id', `l-${c}`)
+            divis.appendChild(lis)
+            //btn
+            let upbtn = document.createElement("button")
+            upbtn.setAttribute('id', `bt-1-${c}`)
+            upbtn.setAttribute('onclick', `updatedata(id)`)
+            upbtn.innerHTML = "update"
+            divis.appendChild(upbtn)
+            //
+            let dlbtn = document.createElement("button")
+            dlbtn.setAttribute('id', `bt-2-${c}`)
+            dlbtn.setAttribute('onclick', `deletedata(id)`)
+            dlbtn.innerHTML = "delete"
+            divis.appendChild(dlbtn)
+
+        }
+    }
+    function updatedata(c) {
+        let dit = c.split("")
+        let ind = dit[dit.length - 1];
+        let data = alldata[ind];
+        let nname = prompt("Enter new name")
+        data.name = nname;
+        let list = document.getElementById(`l-${ind}`)
+        // console.log(list)
+        list.innerHTML = `STUDENT DATA:<br>NAME:=${data.name}  AGE:=${data.age}<br> CITY:=${data.city}  NUMBER:=${data.number} <br>`
+    }
+    function deletedata(c) {
+        let dit = c.split("")
+        let ind = dit[dit.length - 1];
+        let data = alldata[ind];
+        let div = document.getElementById(ind);
+        div.remove();
+    }
+
+</script>
